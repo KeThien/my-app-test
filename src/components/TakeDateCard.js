@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 
 export class TakeDateCard extends Component {
   render() {
@@ -89,7 +89,7 @@ class SelectType extends Component {
     const listCategories = this.state.praticiens[0].categories
 
     return (
-      <div>
+      <Fragment>
         <div className="my-3">
           <em>Selectionner la raison de votre visite</em>
         </div>
@@ -103,7 +103,7 @@ class SelectType extends Component {
             />
           ))}
         </div>
-      </div>
+      </Fragment>
     )
   }
 }
@@ -184,7 +184,7 @@ class SelectDate extends Component {
       service => service.id === this.props.id
     )
     return (
-      <div>
+      <Fragment>
         <div className="my-3">
           <em>Réservez une prochaines disponibilités</em>
         </div>
@@ -193,15 +193,18 @@ class SelectDate extends Component {
             <AppointmentItem key={index} appdate={appdate} />
           ))}
         </div>
-        <button
-          type="button"
-          className="btn btn-outline-info btn-block font-weight-light"
-          onClick={() => {
-            this.backButton()
-          }}
-        >
-          Voir toutes les options &#9654;
-        </button>
+        {listServices.length > 3 ? (
+          <button
+            type="button"
+            className="btn btn-outline-info btn-block font-weight-light"
+            onClick={() => {
+              this.backButton()
+            }}
+          >
+            Voir toutes les options &#9654;
+          </button>
+        ) : null}
+
         <button
           type="button"
           className="btn btn-light btn-block font-weight-light text-muted"
@@ -211,7 +214,7 @@ class SelectDate extends Component {
         >
           &#9664; Retour
         </button>
-      </div>
+      </Fragment>
     )
   }
 }
