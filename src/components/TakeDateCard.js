@@ -185,32 +185,41 @@ class SelectDate extends Component {
     )
     return (
       <Fragment>
-        <div className="my-3">
-          <em>Réservez une prochaines disponibilités</em>
-        </div>
-        <div>
-          {listServices.slice(0, 3).map((appdate, index) => (
-            <AppointmentItem key={index} appdate={appdate} />
-          ))}
-        </div>
-        {listServices.length > 3 ? (
+        <Router>
+          <div className="my-3">
+            <em>Réservez une prochaines disponibilités</em>
+          </div>
+          <div>
+            {listServices.slice(0, 3).map((appdate, index) => (
+              <AppointmentItem key={index} appdate={appdate} />
+            ))}
+          </div>
+          {listServices.length > 3 ? (
+            <Link
+              to={{
+                pathname: '/availabilities',
+                search: `service_id=${this.props.id}`
+              }}
+            >
+              <button
+                type="button"
+                className="btn btn-outline-info btn-block font-weight-light"
+              >
+                Voir toutes les options &#9654;
+              </button>
+            </Link>
+          ) : null}
+
           <button
             type="button"
-            className="btn btn-outline-info btn-block font-weight-light"
+            className="btn btn-light btn-block font-weight-light text-muted"
+            onClick={() => {
+              this.backButton()
+            }}
           >
-            Voir toutes les options &#9654;
+            &#9664; Retour
           </button>
-        ) : null}
-
-        <button
-          type="button"
-          className="btn btn-light btn-block font-weight-light text-muted"
-          onClick={() => {
-            this.backButton()
-          }}
-        >
-          &#9664; Retour
-        </button>
+        </Router>
       </Fragment>
     )
   }
