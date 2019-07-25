@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 export class TakeDateCard extends Component {
   render() {
     return (
@@ -19,7 +19,7 @@ export class TakeDateCard extends Component {
 
 class StartView extends Component {
   state = {
-    isShow: true,
+    isShow: false,
     isTypeSelected: false,
     id: null
   }
@@ -197,9 +197,6 @@ class SelectDate extends Component {
           <button
             type="button"
             className="btn btn-outline-info btn-block font-weight-light"
-            onClick={() => {
-              this.backButton()
-            }}
           >
             Voir toutes les options &#9654;
           </button>
@@ -220,11 +217,12 @@ class SelectDate extends Component {
 }
 class AppointmentItem extends Component {
   handleClick() {
-    console.log('click')
+    console.log('click on date... look at URL')
   }
   render() {
     const startDate = new Date(this.props.appdate.start)
     const endDate = new Date(this.props.appdate.end)
+    const nowDate = Date.now()
     const options = {
       weekday: 'long',
       month: 'long',
@@ -233,19 +231,30 @@ class AppointmentItem extends Component {
       minute: '2-digit'
     }
     return (
-      <div className="my-1">
-        <button
-          type="button"
-          className="btn btn-info btn-block font-weight-light"
-          onClick={this.handleClick}
-        >
-          {startDate.toLocaleDateString('fr-BE', options)} -{' '}
-          {endDate.toLocaleTimeString('fr-BE', {
-            hour: 'numeric',
-            minute: '2-digit'
-          })}
-        </button>
-      </div>
+      <Router>
+        <div className="my-1">
+          <Link
+            to={{
+              pathname: '/new',
+              search: `service_id=${this.props.appdate.id}&start=${
+                this.props.appdate.start
+              }&now=${Math.round(nowDate / 1000)}`
+            }}
+          >
+            <button
+              type="button"
+              className="btn btn-info btn-block font-weight-light"
+              onClick={this.handleClick}
+            >
+              {startDate.toLocaleDateString('fr-BE', options)} -{' '}
+              {endDate.toLocaleTimeString('fr-BE', {
+                hour: 'numeric',
+                minute: '2-digit'
+              })}
+            </button>
+          </Link>
+        </div>
+      </Router>
     )
   }
 }
